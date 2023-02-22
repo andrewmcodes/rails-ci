@@ -10,6 +10,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: .github/actions/checkout
-      - uses: .github/actions/setup-ruby
-      - uses: .github/actions/standard
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/standard
