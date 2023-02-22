@@ -1,0 +1,8 @@
+name: "Run Standardrb"
+description: "Run Standardrb Lints on Ruby Code"
+
+runs:
+  using: "composite"
+  steps:
+    - run: bin/standardrb
+      shell: bash
