@@ -53,6 +53,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem "brakeman", "~> 5.4", require: false
 end
 
 group :development do

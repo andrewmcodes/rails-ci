@@ -1,0 +1,8 @@
+name: "Run Brakeman"
+description: "Run Brakeman Checks"
+
+runs:
+  using: "composite"
+  steps:
+    - run: bin/brakeman -AI
+      shell: bash
