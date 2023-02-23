@@ -1,0 +1,24 @@
+name: "Setup Node"
+description: "Sets up Node and runs bundle install"
+
+runs:
+  using: "composite"
+  steps:
+    - name: ⬢ Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+
+    - name: ⬢ Fetch dependencies from cache
+      id: cache-yarn
+      uses: actions/cache@v3
+      with:
+        path: "**/node_modules"
+        key: yarn-build-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          yarn-build-
+
+    - name: ⬢ Install dependencies
+      if: steps.cache-yarn.outputs.cache-hit != 'true'
+      run: SKIP_SUBMODULE_DEPS=1 yarn --frozen-lockfile
+      shell: bash
