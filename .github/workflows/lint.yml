@@ -14,6 +14,7 @@ jobs:
         id: standardrb
 
       - name: Print check result
+        if: always()
         run: echo '✅ StandardRB:\ ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
 
   brakeman:
@@ -26,4 +27,5 @@ jobs:
         id: brakeman
 
       - name: Print check result
+        if: always()
         run: echo '✅ Brakeman:\ ${{ steps.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
