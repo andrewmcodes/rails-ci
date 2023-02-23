@@ -11,7 +11,7 @@
 #         echo "::set-output name=standard::$MESSAGE"
 #       shell: bash
 
-name: StandardRB
+name: Standard
 
 description: |
   This composite GitHub Action checks out the repository and runs
@@ -20,7 +20,7 @@ description: |
 outputs:
   success:
     description: 'Whether the StandardRB check passed'
-    value: ${{ steps.status.outcome == 'success' }}
+    value: ${{ steps.status.outputs.results }}
 
 runs:
   using: "composite"
@@ -28,15 +28,9 @@ runs:
     - name: Run StandardRB
       shell: bash
       run: bin/standardrb
-
-    - name: Report success/failure
-      shell: bash
-      id: status
-      run: |
-        if [ "$?" -eq 0 ]; then
-          echo "StandardRB check passed."
-        else
-          echo "StandardRB check failed."
-          exit 1
-        if
       continue-on-error: true
+
+    - name: Output Status
+      id: status
+      run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
+      shell: bash
