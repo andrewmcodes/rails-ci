@@ -14,7 +14,7 @@ runs:
   steps:
     - name: Run StandardRB
       shell: bash
-      run: bin/standardrb
+      run: bin/standardrb --format github
 
     - name: Output Status
       if: ${{ always() }}
