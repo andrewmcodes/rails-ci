@@ -22,8 +22,6 @@ jobs:
       - uses: ./.github/actions/setup-ruby
       - uses: ./.github/actions/standard
       - uses: ./.github/actions/brakeman
-      - name: Adding markdown
-        run: echo '### Hello world! ' >> $GITHUB_STEP_SUMMARY
 
   test:
     needs: build
@@ -57,3 +55,6 @@ jobs:
 
       - name: Run tests
         run: bin/rspec
+
+      - name: Adding markdown
+        run: echo '### Hello world! ' >> $GITHUB_STEP_SUMMARY
