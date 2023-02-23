@@ -6,8 +6,8 @@ description: |
 
 outputs:
   success:
-    description: 'Whether the StandardRB check passed'
-    value: ${{ steps.status.outputs.results }}
+    description: The results
+    value: "${{ steps.status.outputs.results }}"
 
 runs:
   using: "composite"
@@ -21,5 +21,4 @@ runs:
       id: status
       shell: bash
       run: |
-        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
-        echo "Status:\ ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "results=${{ job.status }}" >> $GITHUB_OUTPUT
