@@ -1,0 +1,26 @@
+name: "Lint"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/setup-node
+
+  lint:
+    name: Lint
+    needs: build
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    name: Test
+    needs: build
+    uses: ./.github/workflows/test.yml
