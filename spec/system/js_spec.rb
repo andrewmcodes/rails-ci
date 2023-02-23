@@ -1,7 +1,6 @@
 require "system_helper"
 
-# To run all tests
-RSpec.describe "Demo", type: :system, js: false do
+RSpec.describe "JS Demo", type: :system, js: true do
   it "works" do
     visit root_path
     sleep 3

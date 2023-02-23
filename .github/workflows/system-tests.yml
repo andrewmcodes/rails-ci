@@ -1,22 +1,11 @@
-name: Test
+name: "System Tests"
 
 on:
   workflow_call:
 
 jobs:
-  js_test:
-    name: JS Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn test
-      - if: success()
-        run: echo '✅ JS Tests ' >> $GITHUB_STEP_SUMMARY
-      - if: failure()
-        run: echo '❌ JS Tests ' >> $GITHUB_STEP_SUMMARY
-  unit_test:
-    name: Unit Tests
+  no_js_tests:
+    name: System Tests
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
@@ -36,10 +25,35 @@ jobs:
       - uses: ./.github/actions/setup-node
       - uses: ./.github/actions/setup-db
       - uses: ./.github/actions/precompile-assets
-      - run: bin/test
+      - run: bin/rspec ./spec/system/ --tag ~js
       - if: success()
         run: echo '✅ Unit Tests ' >> $GITHUB_STEP_SUMMARY
       - if: failure()
         run: echo '❌ Unit Tests ' >> $GITHUB_STEP_SUMMARY
-  system_test:
-    uses: ./.github/workflows/system-tests.yml
+
+  js_tests:
+    name: JS System Tests
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://actions:password@localhost:5432/actions_test"
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: actions_test
+          POSTGRES_USER: actions
+          POSTGRES_PASSWORD: password
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-db
+      - uses: ./.github/actions/precompile-assets
+      - run: bin/rspec ./spec/system/ --tag js
+      - if: success()
+        run: echo '✅ Unit Tests ' >> $GITHUB_STEP_SUMMARY
+      - if: failure()
+        run: echo '❌ Unit Tests ' >> $GITHUB_STEP_SUMMARY
