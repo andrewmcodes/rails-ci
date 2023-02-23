@@ -27,7 +27,7 @@ jobs:
   lint:
     name: Lint
     needs:
-      - setup-ruby
+      - setup_ruby
     uses: ./.github/workflows/lint.yml
 
   test:
