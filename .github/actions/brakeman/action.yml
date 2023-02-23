@@ -4,7 +4,7 @@ description: |
   This composite GitHub Action runs Brakeman on the codebase.
 
 outputs:
-  success:
+  status:
     description: 'Whether the Brakeman check passed'
     value: ${{ steps.status.outputs.results }}
 
@@ -12,6 +12,7 @@ runs:
   using: "composite"
   steps:
     - name: Run Brakeman
+      id: brakeman
       shell: bash
       run: bin/brakeman --format github --quiet --run-all-checks
 
@@ -20,4 +21,4 @@ runs:
       id: status
       shell: bash
       run: |
-        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
+        echo "results=${{ (steps.brakeman.outputs.success == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT

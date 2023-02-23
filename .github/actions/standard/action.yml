@@ -5,7 +5,7 @@ description: |
   the StandardRB linter.
 
 outputs:
-  success:
+  status:
     description: The results
     value: "${{ steps.status.outputs.results }}"
 

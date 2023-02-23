@@ -8,7 +8,7 @@ jobs:
     name: Standardrb
     runs-on: ubuntu-latest
     outputs:
-      results: ${{ steps.standardrb.outputs.success }}
+      results: ${{ steps.standardrb.outputs.status }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
@@ -20,7 +20,7 @@ jobs:
     name: Brakeman
     runs-on: ubuntu-latest
     outputs:
-      results: ${{ steps.brakeman.outputs.success }}
+      results: ${{ steps.brakeman.outputs.status }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
