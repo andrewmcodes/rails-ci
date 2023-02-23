@@ -7,7 +7,15 @@ on:
     branches: [ "main" ]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/setup-node
+
   lint:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,3 +24,65 @@ jobs:
       - uses: ./.github/actions/brakeman
       - name: Adding markdown
         run: echo '### Hello world! ' >> $GITHUB_STEP_SUMMARY
+
+  system_test:
+    needs: build
+    name: System Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.7
+        env:
+          POSTGRES_USER: myapp
+          POSTGRES_DB: myapp_test
+          POSTGRES_PASSWORD: ""
+        ports: ["5432:5432"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/setup-node
+
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: myapp
+        run: |
+          bin/rails db:setup
+
+      - name: Precompile Assets
+        run: |
+          bin/rails assets:precompile
+
+      - name: Run tests
+        run: bin/rspec
+
+  test:
+    needs: build
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.7
+        env:
+          POSTGRES_USER: myapp
+          POSTGRES_DB: myapp_test
+          POSTGRES_PASSWORD: ""
+        ports: ["5432:5432"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-ruby
+      - uses: ./.github/actions/setup-node
+
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: myapp
+        run: |
+          bin/rails db:setup
+
+      - name: Run tests
+        run: bin/rspec
