@@ -1,0 +1,8 @@
+name: "Precompile Assets"
+description: "..."
+
+runs:
+  using: "composite"
+  steps:
+    - run: bin/rails assets:precompile
+      shell: bash

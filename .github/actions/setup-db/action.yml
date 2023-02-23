@@ -1,0 +1,8 @@
+name: "Configure Database"
+description: "..."
+
+runs:
+  using: "composite"
+  steps:
+    - run: bin/rails db:schema:load
+      shell: bash
