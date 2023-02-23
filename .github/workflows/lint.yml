@@ -17,7 +17,7 @@ jobs:
 
       - name: Print StandardRB check result
         run: echo '✅ StandardRB:\ ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
-
+        continue-on-error: true
 
   brakeman:
     name: Brakeman
