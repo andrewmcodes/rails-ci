@@ -33,6 +33,10 @@ jobs:
     if: ${{ always() }}
 
     steps:
+      - env:
+          OUTPUT1: ${{needs.standardrb.outputs.success}}
+          OUTPUT2: ${{needs.brakeman.outputs.success}}
+        run: echo "$OUTPUT1 $OUTPUT2 foo"
       - name: Combine results
         run: |
           echo '✅ StandardRB: ${{ env.standardrb_results }}' >> $GITHUB_STEP_SUMMARY
