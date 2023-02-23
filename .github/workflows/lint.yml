@@ -25,18 +25,22 @@ jobs:
       - name: Adding markdown
         run: echo '### Hello world! ' >> $GITHUB_STEP_SUMMARY
 
-  system_test:
+  test:
     needs: build
     name: System Tests
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:12.7
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
         env:
-          POSTGRES_USER: myapp
-          POSTGRES_DB: myapp_test
-          POSTGRES_PASSWORD: ""
-        ports: ["5432:5432"]
+          POSTGRES_DB: actions_test
+          POSTGRES_USER: actions
+          POSTGRES_PASSWORD: password
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://actions:password@localhost:5432/actions_test"
 
     steps:
       - uses: actions/checkout@v3
@@ -44,45 +48,12 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Setup test database
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: myapp
         run: |
-          bin/rails db:setup
+          bin/rails db:schema:load
 
       - name: Precompile Assets
         run: |
           bin/rails assets:precompile
-
-      - name: Run tests
-        run: bin/rspec
-
-  test:
-    needs: build
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12.7
-        env:
-          POSTGRES_USER: myapp
-          POSTGRES_DB: myapp_test
-          POSTGRES_PASSWORD: ""
-        ports: ["5432:5432"]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-ruby
-      - uses: ./.github/actions/setup-node
-
-      - name: Setup test database
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: myapp
-        run: |
-          bin/rails db:setup
 
       - name: Run tests
         run: bin/rspec
