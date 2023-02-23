@@ -22,3 +22,4 @@ runs:
       shell: bash
       run: |
         echo "results=${{ job.status }}" >> $GITHUB_OUTPUT
+        echo "standardrb_results=${{ job.status }}" >> $GITHUB_ENV
