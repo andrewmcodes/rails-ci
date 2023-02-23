@@ -14,14 +14,13 @@ jobs:
       - uses: ./.github/actions/setup-ruby
       - uses: ./.github/actions/standard
         id: standardrb
-      - name: Print check result
-        if: ${{ always() }}
-        run: echo "Output:\ ${{ steps.standardrb.outputs.success }}" >> $GITHUB_STEP_SUMMARY
 
 
   brakeman:
     name: Brakeman
     runs-on: ubuntu-latest
+    outputs:
+      results: ${{ steps.brakeman.outputs.success }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
@@ -35,11 +34,7 @@ jobs:
     if: ${{ always() }}
 
     steps:
-      - env:
-          OUTPUT1: ${{needs.standardrb.outputs.results}}
-          OUTPUT2: ${{needs.brakeman.outputs.success}}
-        run: echo "$OUTPUT1 $OUTPUT2 foo"
       - name: Combine results
         run: |
-          echo '✅ StandardRB: ${{ needs.standardrb.outputs.results }}' >> $GITHUB_STEP_SUMMARY
-          echo '✅ Brakeman: ${{ needs.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+          echo 'StandardRB: ${{ needs.standardrb.outputs.results }}' >> $GITHUB_STEP_SUMMARY
+          echo 'Brakeman: ${{ needs.brakeman.outputs.results }}' >> $GITHUB_STEP_SUMMARY

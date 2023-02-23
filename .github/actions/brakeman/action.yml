@@ -20,5 +20,4 @@ runs:
       id: status
       shell: bash
       run: |
-        echo "- Brakeman : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
         echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
