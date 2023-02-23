@@ -13,7 +13,7 @@ runs:
   steps:
     - name: Run Brakeman
       shell: bash
-      run: bin/brakeman -AI --format github
+      run: bin/brakeman --format github --quiet --run-all-checks
 
     - name: Output Status
       if: ${{ always() }}
