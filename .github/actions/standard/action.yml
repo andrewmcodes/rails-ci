@@ -13,6 +13,7 @@ runs:
   using: "composite"
   steps:
     - name: Run StandardRB
+      id: standard
       shell: bash
       run: bin/standardrb --format github
 
@@ -21,4 +22,4 @@ runs:
       id: status
       shell: bash
       run: |
-        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
+        echo "results=${{ (steps.standard.outputs.success == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
