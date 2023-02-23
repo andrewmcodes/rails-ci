@@ -20,7 +20,7 @@ description: |
 outputs:
   success:
     description: 'Whether the StandardRB check passed'
-    value: ${{ steps.status.outputs.results }}
+    value: ${{ steps.status.outputs.results == '0' }}
 
 runs:
   using: "composite"

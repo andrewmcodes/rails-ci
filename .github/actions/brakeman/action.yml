@@ -1,8 +1,22 @@
-name: "Run Brakeman"
-description: "Run Brakeman Checks"
+name: Standard
+
+description: |
+  This composite GitHub Action runs Brakeman on the codebase.
+
+outputs:
+  success:
+    description: 'Whether the Brakeman check passed'
+    value: ${{ steps.status.outputs.results == '0' }}
 
 runs:
   using: "composite"
   steps:
-    - run: bin/brakeman -AI
+    - name: Run Brakeman
+      shell: bash
+      run: bin/brakeman -AI
+      continue-on-error: true
+
+    - name: Output Status
+      id: status
+      run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
       shell: bash
