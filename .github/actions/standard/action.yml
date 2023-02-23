@@ -21,5 +21,5 @@ runs:
       id: status
       shell: bash
       run: |
-        echo "results=${ (job.status == 'success' && '✅') || '❌' }" >> $GITHUB_OUTPUT
-      # echo "- Standard : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
+        echo "Status:\ ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
