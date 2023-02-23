@@ -7,6 +7,8 @@ jobs:
   standardrb:
     name: Standardrb
     runs-on: ubuntu-latest
+    outputs:
+      results: ${{ steps.standardrb.outputs.success }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
@@ -34,10 +36,10 @@ jobs:
 
     steps:
       - env:
-          OUTPUT1: ${{needs.standardrb.outputs.success}}
+          OUTPUT1: ${{needs.standardrb.outputs.results}}
           OUTPUT2: ${{needs.brakeman.outputs.success}}
         run: echo "$OUTPUT1 $OUTPUT2 foo"
       - name: Combine results
         run: |
-          echo '✅ StandardRB: ${{ env.standardrb_results }}' >> $GITHUB_STEP_SUMMARY
+          echo '✅ StandardRB: ${{ needs.standardrb.outputs.results }}' >> $GITHUB_STEP_SUMMARY
           echo '✅ Brakeman: ${{ needs.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
