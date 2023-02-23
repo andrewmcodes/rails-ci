@@ -17,10 +17,9 @@ runs:
       run: bin/standardrb
 
     - name: Output Status
-      if: ${{ always() }}
+      if: always()
       id: status
       shell: bash
       run: |
-        echo "::set-output name=results::StandardRB ${{ (job.status == 'success' && '✅') || '❌' }}"
         echo "- Standard : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-      # run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
+        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT

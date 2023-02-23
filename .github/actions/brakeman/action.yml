@@ -16,10 +16,9 @@ runs:
       run: bin/brakeman -AI
 
     - name: Output Status
-      if: ${{ always() }}
+      if: always()
       id: status
       shell: bash
       run: |
-        echo "::set-output name=results::Brakeman ${{ (job.status == 'success' && '✅') || '❌' }}"
         echo "- Brakeman : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-      # run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
+        echo "results=${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_OUTPUT
