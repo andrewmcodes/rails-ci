@@ -1,16 +1,3 @@
-# name: "Run Standardrb"
-# description: "Run Standardrb Lints on Ruby Code"
-
-# runs:
-#   using: "composite"
-#   steps:
-#     - run: bin/standardrb
-#       shell: bash
-#     - run: |
-#         MESSAGE="Hello $INPUT_NAME"
-#         echo "::set-output name=standard::$MESSAGE"
-#       shell: bash
-
 name: Standard
 
 description: |
@@ -20,7 +7,7 @@ description: |
 outputs:
   success:
     description: 'Whether the StandardRB check passed'
-    value: ${{ steps.status.outputs.results == '0' }}
+    value: ${{ steps.status.outputs.results }}
 
 runs:
   using: "composite"
@@ -28,9 +15,12 @@ runs:
     - name: Run StandardRB
       shell: bash
       run: bin/standardrb
-      continue-on-error: true
 
     - name: Output Status
+      if: ${{ always() }}
       id: status
-      run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
       shell: bash
+      run: |
+        echo "::set-output name=results::StandardRB ${{ (job.status == 'success' && '✅') || '❌' }}"
+        echo "- Standard : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+      # run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT

@@ -6,7 +6,7 @@ description: |
 outputs:
   success:
     description: 'Whether the Brakeman check passed'
-    value: ${{ steps.status.outputs.results == '0' }}
+    value: ${{ steps.status.outputs.results }}
 
 runs:
   using: "composite"
@@ -14,9 +14,12 @@ runs:
     - name: Run Brakeman
       shell: bash
       run: bin/brakeman -AI
-      continue-on-error: true
 
     - name: Output Status
+      if: ${{ always() }}
       id: status
-      run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
       shell: bash
+      run: |
+        echo "::set-output name=results::Brakeman ${{ (job.status == 'success' && '✅') || '❌' }}"
+        echo "- Brakeman : ${{ (job.status == 'success' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+      # run: echo "results=$(echo $?)" >> $GITHUB_OUTPUT
