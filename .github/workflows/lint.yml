@@ -12,6 +12,10 @@ jobs:
       - uses: ./.github/actions/setup-ruby
       - uses: ./.github/actions/standard
         id: standardrb
+      - name: Print check result
+        if: ${{ always() }}
+        run: echo 'Output:\ ${{ steps.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+
 
   brakeman:
     name: Brakeman

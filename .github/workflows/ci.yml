@@ -11,14 +11,14 @@ concurrency:
 
 jobs:
   setup_ruby:
-    name: Setup Ruby Dependencies
+    name: Setup Ruby
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
 
   setup_node:
-    name: Setup Node Dependencies
+    name: Setup Node
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
