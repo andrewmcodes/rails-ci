@@ -10,7 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-ruby
-      - uses: ./.github/actions/standard
+
+      - name: Run StandardRB
+        id: standardrb
+        uses: ./.github/actions/standard
+
+      - name: Print StandardRB check result
+        run: echo '✅ StandardRB:\ ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+
 
   brakeman:
     name: Brakeman

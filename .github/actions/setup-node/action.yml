@@ -1,9 +1,19 @@
 name: "Setup Node"
 description: "Sets up Node and runs bundle install"
 
+inputs:
+  checkout:
+    description: 'Whether to check out the repository'
+    required: false
+    default: 'false'
+
 runs:
   using: "composite"
   steps:
+    - name: Checkout
+      if: ${{ inputs.checkout == 'true' }}
+      uses: actions/checkout@v3
+
     - name: ⬢ Setup Node
       uses: actions/setup-node@v3
       with:

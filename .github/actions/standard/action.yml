@@ -1,8 +1,42 @@
-name: "Run Standardrb"
-description: "Run Standardrb Lints on Ruby Code"
+# name: "Run Standardrb"
+# description: "Run Standardrb Lints on Ruby Code"
+
+# runs:
+#   using: "composite"
+#   steps:
+#     - run: bin/standardrb
+#       shell: bash
+#     - run: |
+#         MESSAGE="Hello $INPUT_NAME"
+#         echo "::set-output name=standard::$MESSAGE"
+#       shell: bash
+
+name: StandardRB
+
+description: |
+  This composite GitHub Action checks out the repository and runs
+  the StandardRB linter.
+
+outputs:
+  success:
+    description: 'Whether the StandardRB check passed'
+    value: ${{ steps.status.outcome == 'success' }}
 
 runs:
   using: "composite"
   steps:
-    - run: bin/standardrb
+    - name: Run StandardRB
       shell: bash
+      run: bin/standardrb
+
+    - name: Report success/failure
+      shell: bash
+      id: status
+      run: |
+        if [ "$?" -eq 0 ]; then
+          echo "StandardRB check passed."
+        else
+          echo "StandardRB check failed."
+          exit 1
+        if
+      continue-on-error: true
