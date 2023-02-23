@@ -16,7 +16,7 @@ runs:
       run: bin/brakeman -AI
 
     - name: Output Status
-      if: always()
+      if: ${{ always() }}
       id: status
       shell: bash
       run: |

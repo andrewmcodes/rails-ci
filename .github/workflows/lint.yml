@@ -31,5 +31,5 @@ jobs:
     steps:
       - name: Combine results
         run: |
-          echo '✅ StandardRB:\ ${{ needs.standard.outputs.success }}' >> $GITHUB_STEP_SUMMARY
-          echo '✅ Brakeman:\ ${{ needs.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+          echo '✅ StandardRB: ${{ needs.standard.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+          echo '✅ Brakeman: ${{ needs.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY

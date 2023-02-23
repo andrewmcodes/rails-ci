@@ -17,7 +17,7 @@ runs:
       run: bin/standardrb
 
     - name: Output Status
-      if: always()
+      if: ${{ always() }}
       id: status
       shell: bash
       run: |
