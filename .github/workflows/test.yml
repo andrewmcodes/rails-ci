@@ -24,6 +24,7 @@ jobs:
       - uses: ./.github/actions/setup-ruby
       - uses: ./.github/actions/setup-node
       - uses: ./.github/actions/setup-db
+      - uses: ./.github/actions/precompile-assets
       - run: bin/test
       - if: success()
         run: echo '✅ Unit Tests ' >> $GITHUB_STEP_SUMMARY
