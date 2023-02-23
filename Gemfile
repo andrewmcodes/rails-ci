@@ -74,3 +74,4 @@ group :test do
   gem "webdrivers"
 end
 gem "cuprite", group: "test"
+gem "simplecov", require: false, group: :test
