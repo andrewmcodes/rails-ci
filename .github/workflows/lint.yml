@@ -13,9 +13,6 @@ jobs:
       - uses: ./.github/actions/standard
         id: standardrb
 
-      - name: Print check result
-        run: echo '✅ StandardRB:\ ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
-
   brakeman:
     name: Brakeman
     runs-on: ubuntu-latest
@@ -24,9 +21,6 @@ jobs:
       - uses: ./.github/actions/setup-ruby
       - uses: ./.github/actions/brakeman
         id: brakeman
-
-      - name: Print check result
-        run: echo '✅ Brakeman:\ ${{ steps.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
 
   combine-results:
     name: Combine results
