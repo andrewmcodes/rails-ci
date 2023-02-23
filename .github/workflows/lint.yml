@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  standard:
+  standardrb:
     name: Standardrb
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +14,7 @@ jobs:
         id: standardrb
       - name: Print check result
         if: ${{ always() }}
-        run: echo 'Output:\ ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+        run: echo 'Output: ${{ steps.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
 
 
   brakeman:
@@ -28,12 +28,12 @@ jobs:
 
   combine-results:
     name: Combine results
-    needs: [standard, brakeman]
+    needs: [standardrb, brakeman]
     runs-on: ubuntu-latest
     if: ${{ always() }}
 
     steps:
       - name: Combine results
         run: |
-          echo '✅ StandardRB: ${{ needs.standard.outputs.success }}' >> $GITHUB_STEP_SUMMARY
+          echo '✅ StandardRB: ${{ needs.standardrb.outputs.success }}' >> $GITHUB_STEP_SUMMARY
           echo '✅ Brakeman: ${{ needs.brakeman.outputs.success }}' >> $GITHUB_STEP_SUMMARY
